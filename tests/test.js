@@ -66,7 +66,7 @@ test('Handle native confirmation dialog', async t => {
 
     await t
         .click(page.submitButton)
-        .expect(page.results.innerText).contains('Peter Parker');
+        .expect(page.results.innerText).contains('Peter Parkers');
 });
 
 
