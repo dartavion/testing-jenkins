@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    tools { nodejs "regression-pipeline" }
+    tools { nodejs "lts" }
 
     stages {
 
@@ -28,7 +28,7 @@ pipeline {
 
         stage('run regression test') {
             steps {
-                sh 'npm run test' $selectedFile
+                sh 'npm run test'
             }
         }
     }
