@@ -17,12 +17,14 @@ pipeline {
         }
         stage('Pick Which Test to Run') {
             steps {
-                git url: 'https://github.com/dartavion/testing-jenkins.git';
-                def getGitFileList = load('getGitFileList.groovy')
-                def fileList = getGitFileList(new File(pwd()))
-                def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
-                println "Property: $selectedFile"
-                build job: 'usom-regression-tests', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
+                script {
+                    git url: 'https://github.com/dartavion/testing-jenkins.git';
+                    def getGitFileList = load('getGitFileList.groovy')
+                    def fileList = getGitFileList(new File(pwd()))
+                    def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
+                    println "Property: $selectedFile"
+                    build job: 'usom-regression-tests', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
+                }
             }
         }
 
