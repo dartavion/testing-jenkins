@@ -1,3 +1,4 @@
+selectedFile = ''
 pipeline {
     agent any
 
@@ -20,8 +21,8 @@ pipeline {
                 script {
                     git url: 'https://github.com/dartavion/testing-jenkins.git'
                     def getGitFileList = load('getGitFileList.groovy')
-                    def fileList = getGitFileList.inputParamsString(new File(pwd()))
-                    def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
+                    def fileList = getGitFileList.inputParamsString(new File(pwd() + '/tests'))
+                    selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
                     println "Property: $selectedFile"
 
 //                    build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
@@ -31,7 +32,7 @@ pipeline {
 
         stage('run regression test') {
             steps {
-                sh 'node_modules/.bin/testcafe chrome tests/**/* -r xunit:res.xml'
+                sh "node_modules/.bin/testcafe chrome:headless tests/$selectedFile -r xunit:res.xml"
             }
         }
     }
