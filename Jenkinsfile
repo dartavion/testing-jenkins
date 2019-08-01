@@ -1,15 +1,3 @@
-import static groovy.io.FileType.FILES
-
-@NonCPS
-def inputParamsString(dir) {
-    def list = []
-    dir.eachFileRecurse(FILES) {
-        if(it.name.endsWith('.js')) {
-            list << it.getName()
-        }
-    }
-    list.join("\n")
-}
 pipeline {
     agent any
 
@@ -30,16 +18,17 @@ pipeline {
         stage('Pick Which Test to Run') {
             node {
                 git url: 'https://github.com/dartavion/testing-jenkins.git';
-                def inputParams = inputParamsString(new File(pwd()))
-                def selectedProperty = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: inputParams, description: 'Properties', name: 'prop']])
-                println "Property: $selectedProperty"
-                build job: 'usom-regression-tests', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedProperty]]
+                def getGitFileList = load('getGitFileList.groovy')
+                def fileList = getGitFileList(new File(pwd()))
+                def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
+                println "Property: $selectedFile"
+                build job: 'usom-regression-tests', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
             }
         }
 
         stage('run regression test') {
             steps {
-                sh 'npm run test' $selectedProperty
+                sh 'npm run test' $selectedFile
             }
         }
     }
