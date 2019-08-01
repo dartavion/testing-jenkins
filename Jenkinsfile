@@ -19,6 +19,7 @@ pipeline {
             steps {
                 script {
                     final foundFiles = sh(script: 'ls -1 tests', returnStdout: true).split()
+                    println "FOUND FILES: $foundFiles"
                     def getGitFileList = load('getGitFileList.groovy')
                     def fileList = getGitFileList.inputParamsString(foundFiles)
                     def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])

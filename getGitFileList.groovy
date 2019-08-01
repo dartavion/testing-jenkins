@@ -5,7 +5,7 @@ import static groovy.io.FileType.FILES
 def inputParamsString(dir) {
     println pwd()
     def list = [] as java.lang.Object
-    dir.eachFileRecurse(FILES) {
+    dir.eachFileRecurse() {
         if(it.name.endsWith('.js')) {
             list << it.getName()
         }
