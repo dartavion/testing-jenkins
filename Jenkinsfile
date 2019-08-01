@@ -13,7 +13,7 @@ def inputParamsString(dir) {
 pipeline {
     agent any
 
-    tools { nodejs "regression" }
+    tools { nodejs "regression-pipeline" }
 
     stages {
 
