@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/dartavion/testing-jenkins/issues"
   },
-  "homepage": "https://github.com/dartavion/testing-jenkins#readme"
+  "homepage": "https://github.com/dartavion/testing-jenkins#readme",
+  "dependencies": {
+    "testcafe": "^1.3.3",
+    "testcafe-reporter-xunit": "^2.1.0"
+  }
 }
