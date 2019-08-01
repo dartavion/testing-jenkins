@@ -22,7 +22,8 @@ pipeline {
                     git url: 'https://github.com/dartavion/testing-jenkins.git'
                     def getGitFileList = load('getGitFileList.groovy')
                     def fileList = getGitFileList.inputParamsString(new File(pwd() + '/tests'))
-                    selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
+                    
+                    selectedFile = input(id: 'userInput', message: 'Test Cafe', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Select All to run all tests', name: 'Please Select a Test Cafe File']])
                     println "Property: $selectedFile"
                     // build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
                 }
