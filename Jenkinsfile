@@ -37,7 +37,7 @@ pipeline {
     }
     post {
         always {
-            junit script { return "${pwd()}/res.xml" }
+            junit "res.xml"
         }
     }
 }
