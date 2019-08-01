@@ -1,7 +1,7 @@
 import static groovy.io.FileType.FILES
 
 @NonCPS
-static
+
 def inputParamsString(dir) {
     def list = [] as java.lang.Object
     dir.eachFile(FILES) {
