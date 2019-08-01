@@ -18,10 +18,9 @@ pipeline {
         stage('Pick Which Test to Run') {
             steps {
                 script {
-                    final foundFiles = sh(script: 'ls -1 tests', returnStdout: true).split()
-                    println "FOUND FILES: $foundFiles"
+                    git url: 'https://github.com/dartavion/testing-jenkins.git'
                     def getGitFileList = load('getGitFileList.groovy')
-                    def fileList = getGitFileList.inputParamsString(foundFiles)
+                    def fileList = getGitFileList.inputParamsString(new File(pwd()))
                     def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
                     println "Property: $selectedFile"
 
@@ -34,6 +33,11 @@ pipeline {
             steps {
                 sh 'node_modules/.bin/testcafe chrome tests/**/* -r xunit:res.xml'
             }
+        }
+    }
+    post {
+        always {
+            junit script { return "${pwd()}/res.xml" }
         }
     }
 }
