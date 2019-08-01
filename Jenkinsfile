@@ -23,7 +23,7 @@ pipeline {
                     def fileList = getGitFileList.inputParamsString(new File(pwd()))
                     def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
                     println "Property: $selectedFile"
-                    build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
+//                    build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
                 }
             }
         }
