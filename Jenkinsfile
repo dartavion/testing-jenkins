@@ -29,14 +29,14 @@ pipeline {
                             ]
 
                     env.ENVIRONMENT = INPUT_PARAMS.ENVIRONMENT
-                    env.E2E_TEST = E2E_TEST
+                    env.E2E_TEST = INPUT_PARAMS.E2E_TEST
                 }
             }
         }
 
         stage('run regression test') {
             steps {
-                sh "node_modules/.bin/testcafe chrome:headless tests/$env.E2E_Test -r xunit:res.xml"
+                sh "node_modules/.bin/testcafe chrome:headless tests/${env.E2E_Test} -r xunit:res.xml"
             }
         }
     }
@@ -46,4 +46,3 @@ pipeline {
         }
     }
 }
-
