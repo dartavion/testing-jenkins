@@ -21,6 +21,7 @@ pipeline {
                     def workspace = pwd()
                     println "PATH::::::: $workspace"
                     //${workspace} will now contain an absolute path to job workspace on slave
+                    println pwd()
                     git url: 'https://github.com/dartavion/testing-jenkins.git'
                     def getGitFileList = load('getGitFileList.groovy')
                     def fileList = getGitFileList.inputParamsString(new File(pwd()))
