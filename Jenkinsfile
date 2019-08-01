@@ -22,17 +22,21 @@ pipeline {
                     git url: 'https://github.com/dartavion/testing-jenkins.git'
                     def getGitFileList = load('getGitFileList.groovy')
                     def fileList = getGitFileList.inputParamsString(new File(pwd() + '/tests'))
-                    
-                    selectedFile = input(id: 'userInput', message: 'Test Cafe', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Select All to run all tests', name: 'Please Select a Test Cafe File']])
-                    println "Property: $selectedFile"
-                    // build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
+                    def INPUT_PARAMS = input message: 'Please Provide Parameters', ok: 'Next',
+                            parameters: [
+                                choice(name: 'ENVIRONMENT', choices: ['Development', 'Staging'].join('\n'), description: 'Please select the Environment'),
+                                choice(name: 'E2E_TEST', choices: fileList, message: 'Test Cafe', description: 'Please Select a Test', $class: 'ChoiceParameterDefinition')
+                            ]
+
+                    env.ENVIRONMENT = INPUT_PARAMS.ENVIRONMENT
+                    env.E2E_TEST = E2E_TEST
                 }
             }
         }
 
         stage('run regression test') {
             steps {
-                sh "node_modules/.bin/testcafe chrome:headless tests/$selectedFile -r xunit:res.xml"
+                sh "node_modules/.bin/testcafe chrome:headless tests/$env.E2E_Test -r xunit:res.xml"
             }
         }
     }
@@ -42,3 +46,4 @@ pipeline {
         }
     }
 }
+
