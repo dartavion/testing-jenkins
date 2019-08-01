@@ -16,7 +16,7 @@ pipeline {
             }
         }
         stage('Pick Which Test to Run') {
-            node {
+            steps {
                 git url: 'https://github.com/dartavion/testing-jenkins.git';
                 def getGitFileList = load('getGitFileList.groovy')
                 def fileList = getGitFileList(new File(pwd()))
@@ -28,7 +28,7 @@ pipeline {
 
         stage('run regression test') {
             steps {
-                sh 'npm run test'
+                sh 'npm config ls'
             }
         }
     }
