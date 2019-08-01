@@ -18,14 +18,12 @@ pipeline {
         stage('Pick Which Test to Run') {
             steps {
                 script {
-                    def workspace = pwd()
-                    println "PATH::::::: $workspace"
-                    //${workspace} will now contain an absolute path to job workspace on slave
-                    git url: 'https://github.com/dartavion/testing-jenkins.git'
+                    final foundFiles = sh(script: 'ls -1 tests', returnStdout: true).split()
                     def getGitFileList = load('getGitFileList.groovy')
-                    def fileList = getGitFileList.inputParamsString(new File(pwd()))
+                    def fileList = getGitFileList.inputParamsString(foundFiles)
                     def selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
                     println "Property: $selectedFile"
+
 //                    build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
                 }
             }
