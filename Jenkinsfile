@@ -22,7 +22,7 @@ pipeline {
                     git url: 'https://github.com/dartavion/testing-jenkins.git'
                     def getGitFileList = load('getGitFileList.groovy')
                     def fileList = getGitFileList.inputParamsString(new File(pwd() + '/tests'))
-                    def INPUT_PARAMS = input message: 'Please Provide Parameters', ok: 'Next',
+                    def INPUT_PARAMS = input message: 'Regression Tests', ok: 'Ok', cancel: 'Cancel',
                             parameters: [
                                 choice(name: 'ENVIRONMENT', choices: ['Development', 'Staging'].join('\n'), description: 'Please select the Environment'),
                                 choice(name: 'E2E_TEST', choices: fileList, message: 'Test Cafe', description: 'Please Select a Test')
