@@ -11,7 +11,7 @@ pipeline {
                 git 'https://github.com/dartavion/testing-jenkins.git'
             }
         }
-        stage('\u2705 Install dependencies') {
+        stage('\u9853 Install dependencies') {
             steps {
                 sh 'npm install'
             }
