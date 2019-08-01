@@ -6,17 +6,17 @@ pipeline {
 
     stages {
 
-        stage('Cloning Git') {
+        stage('\\u2705 Cloning Git') {
             steps {
                 git 'https://github.com/dartavion/testing-jenkins.git'
             }
         }
-        stage('Install dependencies') {
+        stage('\\u2705 Install dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-        stage('Pick Which Test to Run') {
+        stage('\\u2705 Pick Which Test to Run') {
             steps {
                 script {
                     git url: 'https://github.com/dartavion/testing-jenkins.git'
@@ -24,8 +24,7 @@ pipeline {
                     def fileList = getGitFileList.inputParamsString(new File(pwd() + '/tests'))
                     selectedFile = input(id: 'userInput', message: 'Choose properties file', parameters: [[$class: 'ChoiceParameterDefinition', choices: fileList, description: 'Properties', name: 'prop']])
                     println "Property: $selectedFile"
-
-//                    build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
+                    // build job: 'regression-pipeline', parameters: [[$class: 'StringParameterValue', name: 'prop', value: selectedFile]]
                 }
             }
         }
