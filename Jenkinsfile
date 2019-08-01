@@ -33,7 +33,7 @@ pipeline {
 
         stage('run regression test') {
             steps {
-                sh 'node_modules/.bin/testcafe chrome /**/* -r xunit:res.xml'
+                sh 'node_modules/.bin/testcafe chrome tests/**/* -r xunit:res.xml'
             }
         }
     }
