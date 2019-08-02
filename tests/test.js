@@ -27,7 +27,7 @@ test('Click an array of labels and then check their states', async t => {
 
 test('Dealing with text using keyboard', async t => {
     await t
-        .typeText(page.nameInput, 'Peter Parkers')           // Type name
+        .typeText(page.nameInput, 'Peter Parker')           // Type name
         .click(page.nameInput, { caretPos: 5 })             // Move caret position
         .pressKey('backspace')                              // Erase a character
         .expect(page.nameInput.value).eql('Pete Parker')    // Check result
